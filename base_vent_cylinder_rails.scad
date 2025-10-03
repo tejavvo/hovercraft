@@ -37,69 +37,23 @@ hex_points = [ for(i=[0:5]) [ base_radius*(cos(i*60 + 30)), base_radius*(sin(i*6
 // Modules
 // ==========================
 
-// Hex base with central hole
-module hex_base() {
-    difference() {
-        linear_extrude(height=base_thickness)
-            polygon(hex_points);
-        translate([0,0,-1])
-            cylinder(h=base_thickness+2, r=hole_radius, $fn=100);
-    }
-}
-
-// Rails clipped to hex
-module rails_clipped() {
-    intersection() {
-        union() {
-            translate([-hole_radius, -rail_width/2, rail_offset])
-                cube([hole_radius-center_disk_radius+5, rail_width, rail_height]);
-            translate([-rail_width/2, -hole_radius, rail_offset])
-                cube([rail_width, hole_radius-center_disk_radius+5, rail_height]);
-            translate([center_disk_radius-5, -rail_width/2, rail_offset])
-                cube([hole_radius-center_disk_radius+5, rail_width, rail_height]);
-            translate([-rail_width/2, center_disk_radius-5, rail_offset])
-                cube([rail_width, hole_radius-center_disk_radius+5, rail_height]);
-        }
-    }
-}
-
-// Hollow connector cylinder for rails
-module hollow_connector() {
-    difference() {
-        cylinder(h=rail_offset+rail_height, r=hole_radius+connector_thickness, $fn=100);
-        translate([0,0,-1])
-            cylinder(h=rail_offset+rail_height+2, r=hole_radius, $fn=100);
-    }
-}
-
-
-// Center disk with motor mount and screws
-module center_disk_union() {
-    difference() {
-        cylinder(h=rail_height, r=center_disk_radius, $fn=100);
-        translate([0,0,-1])
-            cylinder(h=rail_height+2, r=motor_hole_radius, $fn=50);
-        for (angle=[0,90,180,270]) {
-            translate([mount_screw_dist*cos(angle), mount_screw_dist*sin(angle), -1])
-                cylinder(h=rail_height+2, r=mount_screw_radius, $fn=20);
-        }
-    }
-}
 
 // Reinforced vent duct with rails, crossbars, and motor mount
 module vent_duct(pos=[0,0,0], rot=[90,0,0]) {
-    translate(pos)
-        rotate(rot)
+//    translate(pos)
+//        rotate(rot)
             union() {
                 // Hollow cylinder
-                difference() {
-                    cylinder(h=vent_length, r=vent_outer_radius, $fn=50);
-                    translate([0,0,-1])
-                        cylinder(h=vent_length+2, r=vent_outer_radius-vent_hollow_radius, $fn=50);
-                }
+//                difference() {
+//                    cylinder(h=vent_length, r=vent_outer_radius, $fn=50);
+//                    translate([0,0,-1])
+//                        cylinder(h=vent_length+2, r=vent_outer_radius-vent_hollow_radius, $fn=50);
+//                }
                 translate([0, 0, vent_offset])
                     // Rails inside cylinder
+                difference(){
                     intersection() {
+                        
                         union() {
                             translate([-vent_outer_radius+vent_hollow_radius, -rail_width/2, 0])
                                 cube([vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_width, rail_height]);
@@ -111,6 +65,11 @@ module vent_duct(pos=[0,0,0], rot=[90,0,0]) {
                                 cube([rail_width, vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_height]);
                         }
                     }
+                    difference() {
+                    cylinder(h=vent_length, r=vent_outer_radius, $fn=50);
+                   translate([0,0,-1])
+                       cylinder(h=vent_length+2, r=vent_outer_radius-vent_hollow_radius, $fn=50);
+              }}
                     // Center disk on vent
                     translate([0,0,vent_offset])
                         difference() {
@@ -125,37 +84,20 @@ module vent_duct(pos=[0,0,0], rot=[90,0,0]) {
             }
 }
 
-// Support strut connecting vent duct to base
-module support_strut() {
-    translate([-sqrt(3)*base_radius/2, -vent_length/2 - 0.8, 0])
-        cube([10, vent_length, vent_height_above_base - vent_outer_radius + vent_hollow_radius]);
 
-    translate([sqrt(3)*base_radius/2 - 10, -vent_length/2 - 0.8, 0])
-        cube([10, vent_length, vent_height_above_base - vent_outer_radius + vent_hollow_radius]);}
-
-module top_cross_strut() {
-    x1 = base_radius - vent_lateral_offset;
-    x2 = -base_radius + vent_lateral_offset;
-    y  = vent_total_offset + rail_width; 
-    z  = base_thickness + vent_height_above_base + vent_length - rail_height; 
-
-    translate([x2, y - rail_width/2, z])
-        cube([ (x1 - x2)+20, rail_width, rail_height ]);
-}
 // ==========================
 // Assembly
 // ==========================
 union() {
-    hex_base();
-    rails_clipped();
-     hollow_connector();
-    translate([0,0,rail_offset])
-        center_disk_union();
+    // hex_base();
+    // rails_clipped();
+    // hollow_connector();
+    //translate([0,0,rail_offset])
+      //  center_disk_union();
     // Two vent ducts at opposite vertices
-     vent_duct(pos=[base_radius - vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
-    vent_duct(pos=[-base_radius + vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
+    vent_duct(pos=[base_radius - vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
+    // vent_duct(pos=[-base_radius + vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
 
     // Supports from base vertices to vent ducts
-     support_strut();
-    top_cross_strut();
+    // support_strut();
 }

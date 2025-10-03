@@ -133,29 +133,20 @@ module support_strut() {
     translate([sqrt(3)*base_radius/2 - 10, -vent_length/2 - 0.8, 0])
         cube([10, vent_length, vent_height_above_base - vent_outer_radius + vent_hollow_radius]);}
 
-module top_cross_strut() {
-    x1 = base_radius - vent_lateral_offset;
-    x2 = -base_radius + vent_lateral_offset;
-    y  = vent_total_offset + rail_width; 
-    z  = base_thickness + vent_height_above_base + vent_length - rail_height; 
 
-    translate([x2, y - rail_width/2, z])
-        cube([ (x1 - x2)+20, rail_width, rail_height ]);
-}
 // ==========================
 // Assembly
 // ==========================
 union() {
-    hex_base();
-    rails_clipped();
-     hollow_connector();
-    translate([0,0,rail_offset])
-        center_disk_union();
+    // hex_base();
+    // rails_clipped();
+    hollow_connector();
+    //translate([0,0,rail_offset])
+      //  center_disk_union();
     // Two vent ducts at opposite vertices
-     vent_duct(pos=[base_radius - vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
-    vent_duct(pos=[-base_radius + vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
+    // vent_duct(pos=[base_radius - vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
+    // vent_duct(pos=[-base_radius + vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
 
     // Supports from base vertices to vent ducts
-     support_strut();
-    top_cross_strut();
+    // support_strut();
 }
