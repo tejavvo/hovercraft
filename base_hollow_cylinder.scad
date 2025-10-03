@@ -4,10 +4,10 @@
 base_radius        = 6 * 25.4;       // hex flat-to-flat in mm
 base_thickness     = 3;              // base thickness
 rail_width         = 25;             // rail width
-rail_height        = 3;              // rail thickness
+rail_height        = 5;              // rail thickness
 rail_offset        = 1 * 25.4;       // height of rails above base
-hole_radius        = 4 * 25.4;       // motor central hole radius (for rails connector)
-connector_thickness= 5;              // hollow cylinder shell thickness
+hole_radius        = 4.2 * 25.4;       // motor central hole radius (for rails connector)
+connector_thickness= 2;              // hollow cylinder shell thickness
 
 center_disk_radius = 25;             // central disk radius
 motor_hole_radius  = 7;              // motor shaft hole radius
@@ -141,10 +141,10 @@ module support_strut() {
 union() {
     
     // hex_base();
-    rails_clipped();
+    //rails_clipped();
     hollow_connector();
-    translate([0,0,rail_offset])
-      center_disk_union();
+//    translate([0,0,rail_offset])
+//      center_disk_union();
     // Two vent ducts at opposite vertices
 //    vent_duct(pos=[base_radius - vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);
     // vent_duct(pos=[-base_radius + vent_lateral_offset,vent_total_offset+rail_width,base_thickness + vent_height_above_base]);

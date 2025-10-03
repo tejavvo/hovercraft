@@ -92,36 +92,36 @@ module vent_duct(pos=[0,0,0], rot=[90,0,0]) {
 //        rotate(rot)
             union() {
                 // Hollow cylinder
-//                difference() {
-//                    cylinder(h=vent_length, r=vent_outer_radius, $fn=50);
-//                    translate([0,0,-1])
-//                        cylinder(h=vent_length+2, r=vent_outer_radius-vent_hollow_radius, $fn=50);
-//                }
-                translate([0, 0, vent_offset])
-                    // Rails inside cylinder
-                    intersection() {
-                        union() {
-                            translate([-vent_outer_radius+vent_hollow_radius, -rail_width/2, 0])
-                                cube([vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_width, rail_height]);
-                            translate([-rail_width/2, -vent_outer_radius+vent_hollow_radius, 0])
-                                cube([rail_width, vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_height]);
-                            translate([center_disk_radius-5, -rail_width/2, 0])
-                                cube([vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_width, rail_height]);
-                            translate([-rail_width/2, center_disk_radius-5, 0])
-                                cube([rail_width, vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_height]);
-                        }
-                    }
-                    // Center disk on vent
-                    translate([0,0,vent_offset])
-                        difference() {
-                            cylinder(h=rail_height, r=center_disk_radius, $fn=100);
-                            translate([0,0,-1])
-                                cylinder(h=rail_height+2, r=motor_hole_radius, $fn=50);
-                            for(angle=[0,90,180,270]){
-                                translate([mount_screw_dist*cos(angle), mount_screw_dist*sin(angle), -1])
-                                    cylinder(h=rail_height+2, r=mount_screw_radius, $fn=20);
-                            }
-                        }
+                difference() {
+                    cylinder(h=vent_length, r=vent_outer_radius, $fn=50);
+                    translate([0,0,-1])
+                        cylinder(h=vent_length+2, r=vent_outer_radius-vent_hollow_radius, $fn=50);
+                }
+//                translate([0, 0, vent_offset])
+//                    // Rails inside cylinder
+//                    intersection() {
+//                        union() {
+//                            translate([-vent_outer_radius+vent_hollow_radius, -rail_width/2, 0])
+//                                cube([vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_width, rail_height]);
+//                            translate([-rail_width/2, -vent_outer_radius+vent_hollow_radius, 0])
+//                                cube([rail_width, vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_height]);
+//                            translate([center_disk_radius-5, -rail_width/2, 0])
+//                                cube([vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_width, rail_height]);
+//                            translate([-rail_width/2, center_disk_radius-5, 0])
+//                                cube([rail_width, vent_outer_radius-vent_hollow_radius-center_disk_radius+5, rail_height]);
+//                        }
+//                    }
+//                    // Center disk on vent
+//                    translate([0,0,vent_offset])
+//                        difference() {
+//                            cylinder(h=rail_height, r=center_disk_radius, $fn=100);
+//                            translate([0,0,-1])
+//                                cylinder(h=rail_height+2, r=motor_hole_radius, $fn=50);
+//                            for(angle=[0,90,180,270]){
+//                                translate([mount_screw_dist*cos(angle), mount_screw_dist*sin(angle), -1])
+//                                    cylinder(h=rail_height+2, r=mount_screw_radius, $fn=20);
+//                            }
+//                        }
             }
 }
 

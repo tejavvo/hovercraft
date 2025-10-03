@@ -4,7 +4,7 @@
 base_radius        = 6 * 25.4;       // hex flat-to-flat in mm
 base_thickness     = 3;              // base thickness
 rail_width         = 25;             // rail width
-rail_height        = 3;              // rail thickness
+rail_height        = 5;              // rail thickness
 rail_offset        = 1 * 25.4;       // height of rails above base
 hole_radius        = 4 * 25.4;       // motor central hole radius (for rails connector)
 connector_thickness= 5;              // hollow cylinder shell thickness
@@ -88,6 +88,7 @@ module vent_duct(pos=[0,0,0], rot=[90,0,0]) {
 // ==========================
 // Assembly
 // ==========================
+projection() {
 union() {
     // hex_base();
     // rails_clipped();
@@ -100,4 +101,5 @@ union() {
 
     // Supports from base vertices to vent ducts
     // support_strut();
+}
 }
